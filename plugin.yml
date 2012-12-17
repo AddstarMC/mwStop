@@ -1,5 +1,6 @@
 name: mwStop
+author: monowii
+version: 0.6
 main: com.monowii.mwstop.stop
-version: 0.5
 commands:
   mwstop:

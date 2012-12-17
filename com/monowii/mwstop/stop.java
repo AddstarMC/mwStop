@@ -23,7 +23,6 @@ public class stop extends JavaPlugin
 		}
 		
 		FileConfiguration bukkitConfig = YamlConfiguration.loadConfiguration(bukkitConfigFile);
-		
 		bukkitConfig.addDefault("aliases.stop", "mwstop");
 		bukkitConfig.options().copyDefaults(true);
 		
@@ -31,7 +30,7 @@ public class stop extends JavaPlugin
 			bukkitConfig.save(bukkitConfigFile);
 		} catch (IOException e) { }
 		
-		getConfig().addDefault("message.disconnect", "&2Server Offline. Check back later!");
+		getConfig().addDefault("message.disconnect", "&2Server Offline NEWLINE &aCheck back later!");
         getConfig().options().copyDefaults(true);
         saveConfig();
 	}
@@ -39,10 +38,7 @@ public class stop extends JavaPlugin
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String CommandLabel, String[] args) 
 	{
-		Player player = null;
-		if ((sender instanceof Player)) { player = (Player) sender; }
-
-		if (cmd.getName().equalsIgnoreCase("mwstop") && (player.hasPermission("mwStop.use") || player.isOp()))
+		if (cmd.getName().equalsIgnoreCase("mwstop") && (sender.isOp() || sender.hasPermission("mwStop.use")) )
 		{
 			String StopMsg = null;
 			
@@ -76,14 +72,14 @@ public class stop extends JavaPlugin
 		{
 			for (Player ply : getServer().getOnlinePlayers())
 			{
-				ply.kickPlayer(getConfig().getString("message.disconnect").replaceAll("(&([a-f0-9]))", "§$2"));
+				ply.kickPlayer(getConfig().getString("message.disconnect").replaceAll("NEWLINE", "\n").replaceAll("&", "§"));
 			}
 		}
 		else
 		{
 			for (Player ply : getServer().getOnlinePlayers())
 			{
-				ply.kickPlayer(StopMsg.replaceAll("(&([a-f0-9]))", "§$2"));
+				ply.kickPlayer(StopMsg.replaceAll("NEWLINE", "\n").replaceAll("&", "§"));
 			}
 		}
 		
