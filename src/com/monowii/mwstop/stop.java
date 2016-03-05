@@ -2,6 +2,8 @@ package com.monowii.mwstop;
 
 import java.io.File;
 import java.io.IOException;
+
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -70,17 +72,13 @@ public class stop extends JavaPlugin
 	{
 		if (StopMsg == null)
 		{
-			for (Player ply : getServer().getOnlinePlayers())
-			{
-				ply.kickPlayer(getConfig().getString("message.disconnect").replaceAll("NEWLINE", "\n").replaceAll("&", "§"));
-			}
+			StopMsg = getConfig().getString("message.disconnect");
 		}
-		else
+		StopMsg = ChatColor.translateAlternateColorCodes('&', StopMsg).replaceAll("NEWLINE", "\n");
+
+		for (Player ply : getServer().getOnlinePlayers())
 		{
-			for (Player ply : getServer().getOnlinePlayers())
-			{
-				ply.kickPlayer(StopMsg.replaceAll("NEWLINE", "\n").replaceAll("&", "§"));
-			}
+			ply.kickPlayer(StopMsg);
 		}
 		
 		getServer().shutdown();
